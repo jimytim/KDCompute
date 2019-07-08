@@ -1,0 +1,10 @@
+name: KDCompute
+channels:
+  - defaults
+dependencies:
+  - matplotlib
+  - numpy
+  - pandas
+  - python=3
+  - pip:
+    - pyside2
