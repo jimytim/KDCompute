@@ -4,7 +4,7 @@ from PySide2.QtWidgets import (QMainWindow, QAction, QTabWidget, QDesktopWidget)
 class MainWindow(QMainWindow):
     def __init__(self, widget_tabs):
         self.width = 800
-        self.height = 600
+        self.height = 450
 
         QMainWindow.__init__(self)
         self.setWindowTitle("KD Analysis")
