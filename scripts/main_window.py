@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
             tabWidget.addTab(widget_tab, widget_tab.name)
 
         # Window dimensions
-        self.setFixedSize(self.width, self.height)
+        # self.setFixedSize(self.width, self.height)
         self.setCentralWidget(tabWidget)
         self.center()
 

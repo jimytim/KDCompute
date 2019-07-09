@@ -5,9 +5,6 @@ from PySide2.QtWidgets import (QHBoxLayout, QHeaderView, QSizePolicy, QAbstractI
 class CustomTableModel(QAbstractTableModel):
     def __init__(self, df=None):
         QAbstractTableModel.__init__(self)
-        self.load_data(df)
-
-    def load_data(self, df):
         self.df = df
 
     def rowCount(self, parent=QModelIndex()):
@@ -50,9 +47,31 @@ class DataFrameWidget(QTableView):
         self.vertical_header = self.verticalHeader()
         self.horizontal_header.setSectionResizeMode(QHeaderView.Stretch)
         self.vertical_header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        # self.verticalResizeTableViewToContents()
         self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
         if not editable:
             self.setEditTriggers(QAbstractItemView.NoEditTriggers)
             self.setSelectionMode(QAbstractItemView.NoSelection)
             self.setFocusPolicy(Qt.NoFocus)
+
+    def verticalResizeTableViewToContents(self):
+        print("Resizing the stats table..")
+        height = 0
+        row_count = self.vertical_header.count()
+        print("Number of rows = {}".format(row_count))
+        for i in range(row_count):
+            if not self.vertical_header.isSectionHidden(i):
+                row_height = self.vertical_header.sectionSizeHint(i)
+                print("The row {} has this size = {}".format(i, row_height))
+                height += row_height
+
+        print("Height sum = {}".format(height))
+
+        # if not self.horizontalScrollBar.isHidden():
+        #     height += self.horizontalScrollBar().height()
+
+        # if not self.horizontal_header.isHidden():
+        #     height += self.horizontal_header().height()
+        
+        # self.setMinimumHeight(height)
