@@ -14,11 +14,12 @@ class StatTab(QWidget):
 
         #Goal
         goal_label = QLabel("Your goal")
-        goal_input = QLineEdit()
+        self.goal_input = QLineEdit("0")
+        self.goal_input.textChanged.connect(self.stat_progress_update)
         goal_layout = QHBoxLayout()
         goal_layout.addStretch()
         goal_layout.addWidget(goal_label)
-        goal_layout.addWidget(goal_input)
+        goal_layout.addWidget(self.goal_input)
         goal_layout.addStretch()
 
         input_box = self.create_input_widget()
@@ -95,14 +96,16 @@ class StatTab(QWidget):
         stats_box_df_layout.addWidget(self.stats_df_widget, stretch=2)
         stats_box_df_layout.addStretch(0)
         
-        progression_display = QLineEdit()
-        KD_difference_display = QLineEdit()
-        progression_display.setReadOnly(True)
-        KD_difference_display.setReadOnly(True)
+        self.progression_display = QLineEdit("0.0%")
+        self.kd_difference_display = QLineEdit("+0.000")
+        self.progression_display.setAlignment(Qt.AlignHCenter)
+        self.kd_difference_display.setAlignment(Qt.AlignHCenter)
+        self.progression_display.setReadOnly(True)
+        self.kd_difference_display.setReadOnly(True)
         stats_box_progression_layout.addWidget(QLabel("Last game progression"))
-        stats_box_progression_layout.addWidget(progression_display)
+        stats_box_progression_layout.addWidget(self.progression_display)
         stats_box_progression_layout.addWidget(QLabel("K/D Difference"))
-        stats_box_progression_layout.addWidget(KD_difference_display)
+        stats_box_progression_layout.addWidget(self.kd_difference_display)
 
         stats_box_layout.addLayout(stats_box_df_layout,stretch=1)
         stats_box_layout.addLayout(stats_box_progression_layout,stretch=1)
@@ -112,6 +115,7 @@ class StatTab(QWidget):
     def stat_input_update(self, input_type, value):
         print("Editing terminé for {} -> {}".format(input_type, value))
 
+        # Updating ratios
         if self.death_input.value() != 0:
             self.kd_display.setText(str(round(self.kill_input.value() / self.death_input.value(), 7)))
             self.kd_rounded_display.setText(str(round(self.kill_input.value() / self.death_input.value(), 2)))
@@ -127,6 +131,17 @@ class StatTab(QWidget):
         df.loc["After", "K/D rounded"] = df.loc["After", "K/D"].round(2)
         self.stats_df_widget.model.layoutChanged.emit()
 
+        # Updating progress
+        self.stat_progress_update(self.goal_input.text())
+
+
+    def stat_progress_update(self, goal_value):
+        df = self.stats_df_widget.model.df
+        kd_diff = df.loc["After", "K/D"] - df.loc["Before", "K/D"]
+        self.kd_difference_display.setText("{0:+.5}".format(kd_diff))
+        if goal_value != "":
+            progress = (df.loc["After", "K/D"] - df.loc["Before", "K/D"]) / (float(goal_value) - df.loc["Before", "K/D"])
+            self.progression_display.setText("{:.2f}%".format(progress))
         
 
 
