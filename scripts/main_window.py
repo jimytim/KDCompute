@@ -1,8 +1,11 @@
 from PySide2.QtCore import Slot, qApp
-from PySide2.QtWidgets import QMainWindow, QAction
+from PySide2.QtWidgets import (QMainWindow, QAction, QTabWidget, QDesktopWidget)
 
 class MainWindow(QMainWindow):
-    def __init__(self, widget):
+    def __init__(self, widget_tabs):
+        self.width = 800
+        self.height = 600
+
         QMainWindow.__init__(self)
         self.setWindowTitle("KD Analysis")
 
@@ -21,17 +24,21 @@ class MainWindow(QMainWindow):
         self.status = self.statusBar()
         self.status.showMessage("Ready")
 
+        # Creating tabs
+        tabWidget = QTabWidget()
+        for widget_tab in widget_tabs:
+            tabWidget.addTab(widget_tab, widget_tab.name)
+
         # Window dimensions
-        geometry = qApp.desktop().availableGeometry(self)
-        print("Available geometry: {}".format(geometry))
-        print("Available Width: {}\nAvailable Height: {}".format(geometry.width(), geometry.height()))
-        self.width = 800
-        self.height = 600
-        self.setGeometry(geometry.width()//2 - self.width//2, 
-                         geometry.height()//2 - self.height//2, 
-                         self.width, self.height)
         self.setFixedSize(self.width, self.height)
-        self.setCentralWidget(widget)
+        self.setCentralWidget(tabWidget)
+        self.center()
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
     @Slot()
     def exit_app(self, checked):
