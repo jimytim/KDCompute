@@ -55,7 +55,7 @@ class StatTab(QWidget):
         stats_df = pd.DataFrame({"Kills":[500,510], "Deaths":[250,255]}, index=["Before", "After"])
         stats_df["K/D"] = stats_df.Kills / stats_df.Deaths
         stats_df["K/D rounded"] = stats_df["K/D"].round(2)
-        stats_df_widget = DataFrameWidget(stats_df)
+        stats_df_widget = DataFrameWidget(stats_df, editable=False)
         stats_box_df_layout.addWidget(stats_df_widget, stretch=2)
         stats_box_df_layout.addStretch(0)
         

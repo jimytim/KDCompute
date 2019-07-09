@@ -1,6 +1,6 @@
 from PySide2.QtGui import QColor
 from PySide2.QtCore import (QAbstractTableModel, QModelIndex, Qt)
-from PySide2.QtWidgets import (QHBoxLayout, QHeaderView, QSizePolicy, QTableView, QWidget)
+from PySide2.QtWidgets import (QHBoxLayout, QHeaderView, QSizePolicy, QAbstractItemView, QTableView, QWidget)
 
 class CustomTableModel(QAbstractTableModel):
     def __init__(self, df=None):
@@ -38,7 +38,7 @@ class CustomTableModel(QAbstractTableModel):
         return None
 
 class DataFrameWidget(QTableView):
-    def __init__(self, df):
+    def __init__(self, df, editable=False):
         QTableView.__init__(self)
 
         # Getting the Model
@@ -51,3 +51,8 @@ class DataFrameWidget(QTableView):
         self.horizontal_header.setSectionResizeMode(QHeaderView.Stretch)
         self.vertical_header.setSectionResizeMode(QHeaderView.ResizeToContents)
         self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        if not editable:
+            self.setEditTriggers(QAbstractItemView.NoEditTriggers)
+            self.setSelectionMode(QAbstractItemView.NoSelection)
+            self.setFocusPolicy(Qt.NoFocus)
