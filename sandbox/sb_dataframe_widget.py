@@ -35,7 +35,7 @@ class CustomTableModel(QAbstractTableModel):
         return None
 
 class DataFrameWidget(QTableView):
-    def __init__(self, df, editable=False):
+    def __init__(self, df):
         QTableView.__init__(self)
 
         # Getting the Model
@@ -50,10 +50,6 @@ class DataFrameWidget(QTableView):
         # self.verticalResizeTableViewToContents()
         self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
-        if not editable:
-            self.setEditTriggers(QAbstractItemView.NoEditTriggers)
-            self.setSelectionMode(QAbstractItemView.NoSelection)
-            self.setFocusPolicy(Qt.NoFocus)
 
     def verticalResizeTableViewToContents(self):
         print("Resizing the stats table..")
