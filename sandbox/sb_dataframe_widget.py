@@ -51,6 +51,25 @@ class DataFrameWidget(QTableView):
         self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
 
+    def showSizeInfo(self):
+        print()
+        print("MininumSectionSize: H -> {} | V -> {}".\
+            format(self.horizontal_header.minimumSectionSize(), self.vertical_header.minimumSectionSize()))
+        print("MaximumSectionSize : H -> {} | V -> {}".\
+            format(self.horizontal_header.maximumSectionSize(), self.vertical_header.maximumSectionSize()))
+        print("defaultSectionSize: H -> {} | V -> {}".\
+            format(self.horizontal_header.defaultSectionSize(), self.vertical_header.defaultSectionSize()))
+        print("Horizontal header: count = {}, length = {}".format(self.horizontal_header.count(), 
+            self.horizontal_header.length()))
+        print("Vertical header:   count = {}, length = {}".format(self.vertical_header.count(), 
+            self.vertical_header.length()))
+        print("Horizontal section sizes = {}".format([self.horizontal_header.sectionSize(i) for i in range(self.horizontal_header.count())]))
+        print("Vertical section sizes   = {}".format([self.vertical_header.sectionSize(i) for i in range(self.vertical_header.count())]))
+        print("Horizontal section size hints = {}".format([self.horizontal_header.sectionSizeHint(i) for i in range(self.horizontal_header.count())]))
+        print("Vertical section sizes hints  = {}".format([self.vertical_header.sectionSizeHint(i) for i in range(self.vertical_header.count())]))
+        print("Horizontal section size contents = {}".format([self.horizontal_header.sectionSizeFromContents(i).toTuple() for i in range(self.horizontal_header.count())]))
+        print("Vertical section sizes contents  = {}".format([self.vertical_header.sectionSizeFromContents(i).toTuple() for i in range(self.vertical_header.count())]))
+        
     def verticalResizeTableViewToContents(self):
         print("Resizing the stats table..")
         height = 0

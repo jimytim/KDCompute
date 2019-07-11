@@ -9,6 +9,7 @@ from sb_dataframe_widget import DataFrameWidget
 class Tab(QWidget):
     def __init__(self):
         QWidget.__init__(self)
+
         self.name = "NewTab"
         self.df = self.create_data()
         self.h_layout = QHBoxLayout()
@@ -16,13 +17,22 @@ class Tab(QWidget):
 
         self.df_widget = DataFrameWidget(self.df)
 
-        self.v_layout.addStretch()
+        self.action_button = QPushButton("info")
+        self.action_button.clicked.connect(self.df_widget.showSizeInfo)
+        
+        # self.v_layout.addStretch()
+        self.v_layout.addSpacing(50)
         self.v_layout.addWidget(self.df_widget)
-        self.v_layout.addStretch()
+        # self.v_layout.addStretch()
+        # self.v_layout.addSpacing(50)
+        self.v_layout.addWidget(self.action_button)
 
-        self.h_layout.addStretch()
+        # self.h_layout.addStretch()
+        self.h_layout.addSpacing(50)
         self.h_layout.addLayout(self.v_layout)
-        self.h_layout.addStretch()
+        # self.h_layout.addStretch()
+        self.h_layout.addSpacing(50)
+        
         self.setLayout(self.h_layout)
 
     def create_data(self):
