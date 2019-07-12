@@ -1,4 +1,4 @@
-Conda installation steps for Conda:
+Conda installation steps on a Windows OS:
 
 1) Download miniconda installer
 2) Launch miniconda installer
