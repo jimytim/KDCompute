@@ -27,6 +27,7 @@ class StatTab(QWidget):
 
         # Save Game button
         save_game_button = QPushButton("Save Game")
+        save_game_button.clicked.connect(self.stats_df_widget.showSizeInfo)
         save_game_layout = QHBoxLayout()
         save_game_layout.addStretch()
         save_game_layout.addWidget(save_game_button)
