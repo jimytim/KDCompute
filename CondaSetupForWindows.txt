@@ -6,5 +6,7 @@ Conda installation steps on a Windows OS:
 4) Launch PowerShell as admin
 5) set-executionpolicy unrestricted and close
 6) Launch PowerShell as admin
-7) run "conda update conda"
-8) You're all set !
+7) Run "conda init powershell" and close
+8) Launch PowerShell as admin
+9) Run "conda update conda"
+10) You're all set !
