@@ -1,0 +1,10 @@
+Conda installation steps for Conda:
+
+1) Download miniconda installer
+2) Launch miniconda installer
+3) Setup the path environment variable -> \path\to\Miniconda3, \path\to\Miniconda3\Scripts, \path\to\Miniconda3\Library\bin
+4) Launch PowerShell as admin
+5) set-executionpolicy unrestricted and close
+6) Launch PowerShell as admin
+7) run "conda update conda"
+8) You're all set !
