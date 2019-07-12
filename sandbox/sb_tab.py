@@ -17,15 +17,15 @@ class Tab(QWidget):
 
         self.df_widget = DataFrameWidget(self.df)
 
-        self.action_button = QPushButton("info")
-        self.action_button.clicked.connect(self.df_widget.showSizeInfo)
+        # self.action_button = QPushButton("info")
+        # self.action_button.clicked.connect(self.df_widget.showSizeInfo)
         
         # self.v_layout.addStretch()
         self.v_layout.addSpacing(50)
         self.v_layout.addWidget(self.df_widget)
         # self.v_layout.addStretch()
-        # self.v_layout.addSpacing(50)
-        self.v_layout.addWidget(self.action_button)
+        self.v_layout.addSpacing(50)
+        # self.v_layout.addWidget(self.action_button)
 
         # self.h_layout.addStretch()
         self.h_layout.addSpacing(50)
@@ -35,6 +35,11 @@ class Tab(QWidget):
         
         self.setLayout(self.h_layout)
 
+    def keyPressEvent(self, QKeyEvent):
+        # print("A key has been pressed -> key_num = {}".format(QKeyEvent.key()))
+        self.df_widget.showSizeInfo()
+
+        
     def create_data(self):
         df = pd.DataFrame({"Kills":[500,510], "Deaths":[249,255]}, index=["Before", "After"])
         df["K/D"] = (df.Kills / df.Deaths).round(7)

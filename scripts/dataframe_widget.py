@@ -46,9 +46,17 @@ class DataFrameWidget(QTableView):
         self.horizontal_header = self.horizontalHeader()
         self.vertical_header = self.verticalHeader()
         self.horizontal_header.setSectionResizeMode(QHeaderView.Stretch)
-        self.vertical_header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.vertical_header.setSectionResizeMode(QHeaderView.Fixed)
+        self.vertical_header.setDefaultSectionSize(19)
+        self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # self.verticalResizeTableViewToContents()
-        self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+
+        self.setMinimumWidth(350)
+        # self.setMaximumWidth(400)
+        self.setMinimumHeight(58)
+        self.setMaximumHeight(58)
 
         if not editable:
             self.setEditTriggers(QAbstractItemView.NoEditTriggers)

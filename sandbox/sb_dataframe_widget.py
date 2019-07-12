@@ -46,23 +46,29 @@ class DataFrameWidget(QTableView):
         self.horizontal_header = self.horizontalHeader()
         self.vertical_header = self.verticalHeader()
         self.horizontal_header.setSectionResizeMode(QHeaderView.Stretch)
-        self.vertical_header.setSectionResizeMode(QHeaderView.ResizeToContents)
+        self.vertical_header.setSectionResizeMode(QHeaderView.Fixed)
+        self.vertical_header.setDefaultSectionSize(19)
         # self.verticalResizeTableViewToContents()
-        self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
+        # self.setSizePolicy(QSizePolicy.Minimum, QSizePolicy.Minimum)
 
+        self.setMinimumWidth(400)
+        self.setMaximumWidth(400)
+        self.setMinimumHeight(59)
+        self.setMaximumHeight(59)
 
     def showSizeInfo(self):
-        print()
+        print("Widget minimum size => MinimumHeight  = {} | MinimumWidth  = {}".format(self.minimumHeight(), self.minimumWidth()))
+        print("Widget maximum size => MaximumHeight  = {} | MaximumWidth  = {}".format(self.maximumHeight(), self.maximumWidth()))
         print("MininumSectionSize: H -> {} | V -> {}".\
             format(self.horizontal_header.minimumSectionSize(), self.vertical_header.minimumSectionSize()))
         print("MaximumSectionSize : H -> {} | V -> {}".\
             format(self.horizontal_header.maximumSectionSize(), self.vertical_header.maximumSectionSize()))
         print("defaultSectionSize: H -> {} | V -> {}".\
             format(self.horizontal_header.defaultSectionSize(), self.vertical_header.defaultSectionSize()))
-        print("Horizontal header: count = {}, length = {}".format(self.horizontal_header.count(), 
-            self.horizontal_header.length()))
-        print("Vertical header:   count = {}, length = {}".format(self.vertical_header.count(), 
-            self.vertical_header.length()))
+        print("Horizontal header: count = {}, length = {}".\
+            format(self.horizontal_header.count(), self.horizontal_header.length()))
+        print("Vertical header:   count = {}, length = {}".\
+            format(self.vertical_header.count(), self.vertical_header.length()))
         print("Horizontal section sizes = {}".format([self.horizontal_header.sectionSize(i) for i in range(self.horizontal_header.count())]))
         print("Vertical section sizes   = {}".format([self.vertical_header.sectionSize(i) for i in range(self.vertical_header.count())]))
         print("Horizontal section size hints = {}".format([self.horizontal_header.sectionSizeHint(i) for i in range(self.horizontal_header.count())]))
