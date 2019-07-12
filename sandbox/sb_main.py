@@ -5,8 +5,8 @@ import PySide2
 
 if sys.platform == "win32":
     pyside2_dirpath = os.path.dirname(PySide2.__file__)
-    pyside2_plugin_path = os.path.join(dirname, 'plugins', 'platforms')
-    os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+    pyside2_plugin_path = os.path.join(pyside2_dirpath, 'plugins', 'platforms')
+    os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = pyside2_plugin_path
     
 from PySide2.QtCore import QDateTime, QTimeZone
 from PySide2.QtWidgets import QApplication
