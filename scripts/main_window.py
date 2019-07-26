@@ -1,5 +1,7 @@
-from PySide2.QtCore import Slot, qApp
-from PySide2.QtWidgets import (QMainWindow, QAction, QTabWidget, QDesktopWidget)
+import sys
+from PySide2.QtCore import Slot
+from PySide2.QtWidgets import (QMainWindow, QDialog, QFormLayout, QSpinBox, QAction, 
+                                QTabWidget, QDesktopWidget, QMessageBox)
 
 class MainWindow(QMainWindow):
     def __init__(self, widget_tabs):
@@ -13,12 +15,11 @@ class MainWindow(QMainWindow):
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu("File")
 
-        # Exit QAction
-        exit_action = QAction("Exit", self)
-        exit_action.setShortcut("Ctrl+Q")
-        exit_action.triggered.connect(self.exit_app)
+        init_action = QAction("Initialize", self)
+        init_action.setShortcut("Ctrl+I")
+        init_action.triggered.connect(self.initialize_stats)
 
-        self.file_menu.addAction(exit_action)
+        self.file_menu.addAction(init_action)
 
         # Status Bar
         self.status = self.statusBar()
@@ -41,5 +42,14 @@ class MainWindow(QMainWindow):
         self.move(qr.topLeft())
 
     @Slot()
-    def exit_app(self, checked):
-        sys.exit()
+    def initialize_stats(self):
+        dialog = QDialog()
+        dialog_layout = QFormLayout()
+        kill_spinbox, death_spinbox = QSpinBox(), QSpinBox()
+        dialog_layout.addRow("Kills", kill_spinbox)
+        dialog_layout.addRow("Deaths", death_spinbox)
+        dialog.addLayout = dialog_layout
+        dialog.exec()
+        # self.messageBox = QMessageBox()
+        # self.messageBox.setText("You're about to initialize me!")
+        # self.messageBox.exec()

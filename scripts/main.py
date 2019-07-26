@@ -26,7 +26,6 @@ def create_logger(loglevel="INFO"):
         print("LoggingError: Invalid logLevel -> {}".format(e))
         sys.exit(1)
 
-
     logger = logging.getLogger('root')
     # logger.setLevel(logging.DEBUG)
 
@@ -48,7 +47,7 @@ if __name__ == "__main__":
     # Qt Application
     app = QApplication(sys.argv)
 
-    initials_stats = [5000000000,260]
+    initials_stats = [500,260]
     # Tab creation
     stat_widget = StatTab(initials_stats)
     # QMainWindow using QWidget as central widget
