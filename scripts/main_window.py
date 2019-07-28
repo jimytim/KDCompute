@@ -1,35 +1,41 @@
 import sys
 from PySide2.QtCore import Slot
-from PySide2.QtWidgets import (QMainWindow, QDialog, QFormLayout, QSpinBox, QAction, 
-                                QTabWidget, QDesktopWidget, QMessageBox)
+from PySide2.QtWidgets import (QMainWindow, QAction, QTabWidget, QDesktopWidget, QMessageBox)
 
 class MainWindow(QMainWindow):
-    def __init__(self, widget_tabs):
+    def __init__(self, stats_widget=None, records_widget=None, analysis_widget=None):
         self.width = 800
         self.height = 450
 
         QMainWindow.__init__(self)
         self.setWindowTitle("KD Analysis")
 
+        # Creating tabs
+        tabWidget = QTabWidget()
+        if stats_widget is not None:
+            self.stats_widget = stats_widget
+            tabWidget.addTab(stats_widget, stats_widget.name)
+        if records_widget is not None:
+            self.records_widget = records_widget
+            tabWidget.addTab(records_widget, records_widget.name)
+        if analysis_widget is not None:
+            self.analysis_widget = analysis_widget
+            tabWidget.addTab(analysis_widget, analysis_widget.name)
+
         # Menu
         self.menu = self.menuBar()
         self.file_menu = self.menu.addMenu("File")
 
-        init_action = QAction("Initialize", self)
-        init_action.setShortcut("Ctrl+I")
-        init_action.triggered.connect(self.initialize_stats)
-
-        self.file_menu.addAction(init_action)
+        if self.stats_widget is not None:
+            init_action = QAction("Initialize", self)
+            init_action.setShortcut("Ctrl+I")
+            init_action.triggered.connect(self.stats_widget.initialize_stats)
+            self.file_menu.addAction(init_action)
 
         # Status Bar
         self.status = self.statusBar()
         self.status.showMessage("Ready")
-
-        # Creating tabs
-        tabWidget = QTabWidget()
-        for widget_tab in widget_tabs:
-            tabWidget.addTab(widget_tab, widget_tab.name)
-
+        
         # Window dimensions
         # self.setFixedSize(self.width, self.height)
         self.setCentralWidget(tabWidget)
@@ -40,16 +46,3 @@ class MainWindow(QMainWindow):
         cp = QDesktopWidget().availableGeometry().center()
         qr.moveCenter(cp)
         self.move(qr.topLeft())
-
-    @Slot()
-    def initialize_stats(self):
-        dialog = QDialog()
-        dialog_layout = QFormLayout()
-        kill_spinbox, death_spinbox = QSpinBox(), QSpinBox()
-        dialog_layout.addRow("Kills", kill_spinbox)
-        dialog_layout.addRow("Deaths", death_spinbox)
-        dialog.addLayout = dialog_layout
-        dialog.exec()
-        # self.messageBox = QMessageBox()
-        # self.messageBox.setText("You're about to initialize me!")
-        # self.messageBox.exec()

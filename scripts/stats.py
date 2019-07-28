@@ -1,10 +1,26 @@
 import pandas as pd
 from functools import partial
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout, 
+from PySide2.QtCore import Qt, Slot
+from PySide2.QtWidgets import (QWidget, QHBoxLayout, QVBoxLayout, QDialog, QFormLayout, QDialogButtonBox,
     QGroupBox, QLabel, QLineEdit, QPushButton, QSpinBox)
 
 from dataframe_widget import DataFrameWidget
+
+class StatInitDialog(QDialog):
+
+    def __init__(self):
+        QDialog.__init__(self)
+        self.setWindowTitle("Initialization")
+        self.setMinimumWidth(200)
+        self.layout = QFormLayout()
+        self.kill_spinbox = QSpinBox()
+        self.death_spinbox = QSpinBox()
+        self.kill_spinbox.setRange(0,1000000)
+        self.death_spinbox.setRange(0,1000000)
+        self.layout.addRow(QLabel("Kills"), self.kill_spinbox)
+        self.layout.addRow(QLabel("Deaths"), self.death_spinbox)
+        self.layout.addWidget(QDialogButtonBox(QDialogButtonBox.Cancel | QDialogButtonBox.Ok))
+        self.setLayout(self.layout)
 
 class StatTab(QWidget):
     def __init__(self, initials_stats):
@@ -145,4 +161,8 @@ class StatTab(QWidget):
             self.progression_display.setText("{:.2f}%".format(progress))
         
 
-
+    @Slot()
+    def initialize_stats(self):
+        self.init_dialog = StatInitDialog()
+        self.init_dialog.exec()
+        
