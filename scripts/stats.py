@@ -8,8 +8,9 @@ from dataframe_widget import DataFrameWidget
 
 class StatInitDialog(QDialog):
 
-    def __init__(self):
+    def __init__(self, stats):
         QDialog.__init__(self)
+        self.stats = stats
         self.setWindowTitle("Initialization")
         self.setMinimumWidth(200)
         self.layout = QFormLayout()
@@ -19,8 +20,22 @@ class StatInitDialog(QDialog):
         self.death_spinbox.setRange(0,1000000)
         self.layout.addRow(QLabel("Kills"), self.kill_spinbox)
         self.layout.addRow(QLabel("Deaths"), self.death_spinbox)
-        self.layout.addWidget(QDialogButtonBox(QDialogButtonBox.Cancel | QDialogButtonBox.Ok))
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Cancel | QDialogButtonBox.Ok)
+        self.layout.addWidget(self.buttonBox)
         self.setLayout(self.layout)
+        self.buttonBox.accepted.connect(self.ok)
+        self.buttonBox.rejected.connect(self.cancel)
+
+    def ok(self):
+        kills = self.kill_spinbox.value()
+        deaths = self.death_spinbox.value()
+        self.stats.set_initial_stats(kills, deaths)
+        self.accept()
+
+    def cancel(self):
+        print("Cancelling the stat initialization")
+        self.reject()
+
 
 class StatTab(QWidget):
     def __init__(self, initials_stats):
@@ -159,10 +174,18 @@ class StatTab(QWidget):
         if goal_value != "":
             progress = (df.loc["After", "K/D"] - df.loc["Before", "K/D"]) / (float(goal_value) - df.loc["Before", "K/D"])
             self.progression_display.setText("{:.2f}%".format(progress))
-        
-
+    
     @Slot()
-    def initialize_stats(self):
-        self.init_dialog = StatInitDialog()
+    def exec_init_input_dialog(self):
+        self.init_dialog = StatInitDialog(self)
         self.init_dialog.exec()
         
+
+    def set_initial_stats(self, kills, deaths):
+        print("Stats initialization -> kills = {}, deaths = {}".format(kills, deaths))
+        # self.stats.stats_df_widget.model.layoutAboutToBeChanged.emit()
+        # df = self.stats_df_widget.model.df
+        # df.loc["After", input_type] = df.loc["Before", input_type] + int(value)
+        # df.loc["After", "K/D"] = (df.loc["After", "Kills"] / df.loc["After", "Deaths"]).round(7)
+        # df.loc["After", "K/D rounded"] = df.loc["After", "K/D"].round(2)
+        # self.stats_df_widget.model.layoutChanged.emit()

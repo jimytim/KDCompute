@@ -29,7 +29,7 @@ class MainWindow(QMainWindow):
         if self.stats_widget is not None:
             init_action = QAction("Initialize", self)
             init_action.setShortcut("Ctrl+I")
-            init_action.triggered.connect(self.stats_widget.initialize_stats)
+            init_action.triggered.connect(self.stats_widget.exec_init_input_dialog)
             self.file_menu.addAction(init_action)
 
         # Status Bar
